@@ -1,12 +1,17 @@
+import { Route, Routes } from "react-router-dom";
+import Home from "./Components/Home";
 
 function App() {
- 
-
   return (
-   <>
-   <h1>App</h1>
-   </>
-  )
+    <>
+      <div className="h-screen w-screen flex">
+       
+       <Routes>
+        <Route path="/" element={<Home />} />
+       </Routes>
+      </div>
+    </>
+  );
 }
 
-export default App
+export default App;
