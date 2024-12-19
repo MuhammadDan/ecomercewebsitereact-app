@@ -1,17 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "./Nav";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { Productcontext } from "../Utils/Contex";
 import Loading from "./Loading";
+import axios from "../Utils/Axios";
 const Home = () => {
   const [products] = useContext(Productcontext)
+
+  const {search} = useLocation();
+  //console.log(search);
+  const category = decodeURIComponent(search.split("=")[1]);
+  //console.log(category);
+   
+  const [filteredproducts,setfilterproducts] = useState(null);
+
+  const getproductcategory = async ()=>{
+    try {
+      const {data} = await axios.get(`/products/category/${category}`)
+      setfilterproducts(data);
+    //  console.log(data); 
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+   useEffect(() => {
+    if(!filteredproducts || category == 'undefined') setfilterproducts(products);
+     if(category != 'undefined') getproductcategory();
+   
+   }, [category,products])
+   
+  //  console.log(filteredproducts);
+   
   return products ? (
     <>
       <Nav />
-      <div className="w-[85%]  p-10 flex flex-wrap gap-x-3 overflow-x-hidden overflow-y-auto">
+      <div className="w-[85%] p-10 mt-[2%] flex flex-wrap gap-x-3 overflow-x-hidden overflow-y-auto">
         {
-          products.map((item,index)=>{
+          filteredproducts && filteredproducts.map((item,index)=>{
             return <Link
             to={`/details/${item.id}`}
             key={products.id}

@@ -6,7 +6,7 @@ const Nav = () => {
   const [products] = useContext(Productcontext);
   let particular_category = products && products.reduce((acc,currentvalue)=>[...acc,currentvalue.category],[])
   particular_category = [...new Set(particular_category)]
-  console.log(particular_category);
+  // console.log(particular_category);
   
   const color=()=>{
     return `rgba(${(Math.random()*255).toFixed()},${(Math.random()*255).toFixed()},${(Math.random()*255).toFixed()},0.4)`;
